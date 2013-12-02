@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Omnomnom your object!</title>
+</head>
+<body>
+	<div id="was"></div>
+	<div id="became"></div>
+
+	<script>
+
+		var inputString = prompt("Give me your string! I'll eat it!", "Carl has clarinet but he has lost Clara");
+
+		var wasPlaceholder = document.querySelector('#was');
+		var becamePlaceholder = document.querySelector('#became');
+
+		function omnomnom(str) {
+
+			//var myArray = string.split(" "); // too simple
+			var myArray = str.split(/\s+/g); // http://stackoverflow.com/questions/5964373/is-there-a-difference-between-s-g-and-s-g
+
+			return {
+				// and Dzenis said // один метод добавляет переданное слово в начало предложения
+				unshiftToStart: function (item) {
+					myArray.unshift(item);				// ->[]
+					return myArray;
+				},
+				// and Dzenis said // второй в конец
+				pushToEnd: function (item) {
+					myArray.push(item); 				//   []<-
+					return myArray;
+				},
+				// and Dzenis said // третий удаляет (и возвращает) первое слово
+				shiftFirstWord: function () {
+					var firstWord = myArray.shift(); 	// <-[]
+					console.log(myArray);
+					return firstWord;
+				},
+				// and Dzenis said // четвертый удаляет (и возвращает) последнее слово
+				popLastWord: function () {
+					var lastWord = myArray.pop(); 		//   []->
+					console.log(myArray);
+					return lastWord;
+				}
+			}
+
+		}
+
+		wasPlaceholder.innerHTML = inputString;
+
+		var s = new omnomnom(inputString);
+
+		var newPattern = [s.shiftFirstWord(), s.shiftFirstWord(), s.popLastWord()]; // [Carl, has, Clara]
+
+
+		
+		becamePlaceholder.innerHTML = newPattern.concat(s.pushToEnd(s.shiftFirstWord())).join(" ");
+
+	</script>
+</body>
+</html>
