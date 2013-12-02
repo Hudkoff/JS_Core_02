@@ -10,52 +10,90 @@
 
 	<script>
 
-		var inputString = prompt("Give me your string! I'll eat it!", "Carl has clarinet but he has lost Clara");
-
+		// information indication
 		var wasPlaceholder = document.querySelector('#was');
 		var becamePlaceholder = document.querySelector('#became');
 
+		// let's eat string
+		var inputString = prompt("Give me your string! I'll eat it!", "Carl has clarinet but he has lost Clara");
+
+		// R.I.P.
+		wasPlaceholder.innerHTML = inputString;
+
+		/* MAGIC begins here!
+		 *
+		 * @param str {string}	
+		 *
+		 * @returns {undefined} || {object}
+		 */
 		function omnomnom(str) {
 
 			//var myArray = string.split(" "); // too simple
 			var myArray = str.split(/\s+/g); // http://stackoverflow.com/questions/5964373/is-there-a-difference-between-s-g-and-s-g
 
+			// and Dzenis said - один метод добавляет переданное слово в начало предложения
+			this.unshiftToStart =  function (item) {
+				myArray.unshift(item);					//	 ->[]
+				return myArray;
+			}
+
+			// and Dzenis said - второй в конец
+			this.pushToEnd = function (item) {
+				myArray.push(item); 					//	   []<-
+				return myArray;
+			}
+
+			// and Dzenis said - третий удаляет (и возвращает) первое слово
+			this.shiftFirstWord = function () {
+				var firstWord = myArray.shift(); 		//	 <-[]
+				//console.log(myArray);
+				return firstWord;
+			}
+
+			// and Dzenis said - четвертый удаляет (и возвращает) последнее слово
+			this.popLastWord = function () {
+				var lastWord = myArray.pop(); 			//	   []->
+				//console.log(myArray);
+				return lastWord;
+			}
+
+/*		
+			// Hmm... This way works too :) What's the difference?		
 			return {
-				// and Dzenis said // один метод добавляет переданное слово в начало предложения
 				unshiftToStart: function (item) {
-					myArray.unshift(item);				// ->[]
+					myArray.unshift(item);
 					return myArray;
 				},
-				// and Dzenis said // второй в конец
 				pushToEnd: function (item) {
-					myArray.push(item); 				//   []<-
+					myArray.push(item);
 					return myArray;
 				},
-				// and Dzenis said // третий удаляет (и возвращает) первое слово
 				shiftFirstWord: function () {
-					var firstWord = myArray.shift(); 	// <-[]
-					console.log(myArray);
+					var firstWord = myArray.shift();
 					return firstWord;
 				},
-				// and Dzenis said // четвертый удаляет (и возвращает) последнее слово
 				popLastWord: function () {
-					var lastWord = myArray.pop(); 		//   []->
-					console.log(myArray);
+					var lastWord = myArray.pop();
 					return lastWord;
 				}
 			}
+*/
 
 		}
 
-		wasPlaceholder.innerHTML = inputString;
-
 		var s = new omnomnom(inputString);
 
-		var newPattern = [s.shiftFirstWord(), s.shiftFirstWord(), s.popLastWord()]; // [Carl, has, Clara]
+		// supacombination
 
+		var output = [s.shiftFirstWord(), s.shiftFirstWord(), s.popLastWord()]; // ["Carl", "has", "Clara"]
 
-		
-		becamePlaceholder.innerHTML = newPattern.concat(s.pushToEnd(s.shiftFirstWord())).join(" ");
+		var theRest = s.pushToEnd(s.shiftFirstWord()); // ["clarinet", "but", "he", "has", "lost"] ---> ["but", "he", "has", "lost", "clarinet"]
+
+		output = output.concat(theRest); // summ of 2 arrays 
+		output = output.join(" "); // to string
+
+		// the end
+		becamePlaceholder.innerHTML = output;
 
 	</script>
 </body>
